@@ -71,6 +71,13 @@ productions/<剧名>/
 - **模型分层控成本**：发散/质检用 haiku，结构/情感/评审等重推理用 sonnet。
 - **效率与 token 纪律**：子代理只读所需文件、不通读全目录；大体量产物（分镜）按单元产出、编排器拼接落盘，避免"反复读写正在增长的大文件"的 O(n²) 成本（实测单集分镜成本可从 ~10万 token 降到 ~1万）；评审类只读代理只回报、编排器落盘。详见 `CLAUDE.md`「效率与 token 纪律」。
 
+## 跨工具兼容
+
+本仓库原生为 **Claude Code** 设计（`.claude/` + `CLAUDE.md`）。在其他 AI IDE（如 Antigravity）中使用：
+
+- **最省事**：在该 IDE 的集成终端里从仓库根目录启动 `claude` CLI，`.claude/` 与 `CLAUDE.md` 全部生效，9 阶段流水线零打折。
+- **原生读取**：仓库提供 [`AGENTS.md`](AGENTS.md)——项目宪法的 tool-agnostic 镜像，遵循 `AGENTS.md` 约定的工具可直接将其作为最高约束读入；各角色系统提示在 `.claude/agents/*.md`，方法论库在 `.claude/skills/pixar-method/SKILL.md`，均为可移植 markdown。
+
 ## 调整建议
 
 - 子代理 `model:` 字段可按预算改。
